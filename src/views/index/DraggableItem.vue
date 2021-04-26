@@ -55,11 +55,12 @@ const layouts = {
               {child}
             </el-row>
     }
+    // 63行原为 <span class="component-name">{config.componentName}</span>
     return (
       <el-col span={config.span}>
         <el-row gutter={config.gutter} class={className}
           nativeOnClick={event => { activeItem(currentItem); event.stopPropagation() }}>
-          <span class="component-name">{config.componentName}</span>
+          {!config.componentName && <span class="component-name">{config.componentName}</span>}
           <draggable list={config.children || []} animation={340}
             group="componentsGroup" class="drag-wrapper">
             {child}
@@ -77,6 +78,47 @@ const layouts = {
     }}>
       {child}
     </render>
+  },
+  // 自定义组件测试，里面有荣誉代码，本次只做测试用
+  colLayoutItem(h, currentItem, index, list) {
+    const { activeItem } = this.$listeners
+    const config = currentItem.__config__
+    const child = renderChildren.apply(this, arguments)
+    let className = this.activeId === config.formId ? 'drawing-item active-from-item' : 'drawing-item'
+    if (this.formConf.unFocusedComponentBorder) className += ' unfocus-bordered'
+    let labelWidth = config.labelWidth ? `${config.labelWidth}px` : null
+    if (config.showLabel === false) labelWidth = '0'
+    return (
+      <el-col span={config.span} class={className}
+        nativeOnClick={event => { activeItem(currentItem); event.stopPropagation() }}>
+          <render key={config.renderKey} conf={currentItem} onInput={ event => {
+            this.$set(config, 'defaultValue', event)
+          }}>
+            {child}
+          </render>
+        {components.itemBtns.apply(this, arguments)}
+      </el-col>
+    )
+  },
+  singleItem(h, currentItem, index, list) {
+    const { activeItem } = this.$listeners
+    const config = currentItem.__config__
+    const child = renderChildren.apply(this, arguments)
+    let className = this.activeId === config.formId ? 'drawing-item active-from-item' : 'drawing-item'
+    if (this.formConf.unFocusedComponentBorder) className += ' unfocus-bordered'
+    let labelWidth = config.labelWidth ? `${config.labelWidth}px` : null
+    if (config.showLabel === false) labelWidth = '0'
+    return (
+      <div span={config.span} class={className}
+        onClick={event => { activeItem(currentItem); event.stopPropagation() }}>
+          <render key={config.renderKey} conf={currentItem} onInput={ event => {
+            this.$set(config, 'defaultValue', event)
+          }}>
+            {child}
+          </render>
+        {components.itemBtns.apply(this, arguments)}
+      </div>
+    )
   }
 }
 

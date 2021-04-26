@@ -586,6 +586,29 @@
               </el-button>
             </div>
           </template>
+          <template v-if="Array.isArray(activeData.__config__.linkageRule)">
+            <el-divider>联动规则</el-divider>
+            <div
+              v-for="(item, index) in activeData.__config__.linkageRule"
+              :key="index"
+              class="reg-item"
+            >
+              <span class="close-btn" @click="activeData.__config__.regList.splice(index, 1)">
+                <i class="el-icon-close" />
+              </span>
+              <el-form-item label="表达式">
+                <el-input v-model="item.pattern" placeholder="请输入正则" />
+              </el-form-item>
+              <el-form-item label="错误提示" style="margin-bottom:0">
+                <el-input v-model="item.message" placeholder="请输入错误提示" />
+              </el-form-item>
+            </div>
+            <div style="margin-left: 20px">
+              <el-button icon="el-icon-circle-plus-outline" type="text" @click="addReg">
+                添加规则
+              </el-button>
+            </div>
+          </template>
         </el-form>
         <!-- 表单属性 -->
         <el-form v-show="currentTab === 'form'" size="small" label-width="90px">
@@ -637,6 +660,9 @@
             <el-switch v-model="formConf.formBtns" />
           </el-form-item>
           <el-form-item label="显示未选中组件边框">
+            <el-switch v-model="formConf.unFocusedComponentBorder" />
+          </el-form-item>
+          <el-form-item label="表单提交地址">
             <el-switch v-model="formConf.unFocusedComponentBorder" />
           </el-form-item>
         </el-form>

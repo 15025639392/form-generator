@@ -9,7 +9,8 @@ export const formConf = {
   gutter: 15,
   disabled: false,
   span: 24,
-  formBtns: true
+  formBtns: true,
+  commitUrl: '/add'
 }
 
 // 输入型组件 【左面板】
@@ -29,7 +30,9 @@ export const inputComponents = [
       span: 24,
       document: 'https://element.eleme.cn/#/zh-CN/component/input',
       // 正则校验规则
-      regList: []
+      regList: [],
+      // 联动规则
+      linkageRule: []
     },
     // 组件的插槽属性
     __slot__: {
@@ -197,6 +200,7 @@ export const selectComponents = [
       dataType: 'dynamic',
       span: 24,
       required: true,
+      lazy: true, // 与设添加懒加载模式，后续接入
       regList: [],
       changeTag: true,
       document: 'https://element.eleme.cn/#/zh-CN/component/cascader'
@@ -506,6 +510,86 @@ export const selectComponents = [
     'auto-upload': true,
     'list-type': 'text',
     multiple: false
+  },
+  {
+    __config__: {
+      layout: 'colFormItem',
+      tagIcon: 'table',
+      tag: 'el-table',
+      document: 'https://element.eleme.cn/#/zh-CN/component/table',
+      span: 24,
+      formId: 101,
+      renderKey: 1595761764203,
+      componentName: 'row101',
+      showLabel: true,
+      changeTag: true,
+      labelWidth: null,
+      label: '表格(表单)',
+      dataType: 'dynamic',
+      method: 'get',
+      dataPath: 'list',
+      dataConsumer: 'data',
+      url: 'https://www.fastmock.site/mock/f8d7a54fb1e60561e2f720d5a810009d/fg/tableData',
+      children: [{
+        __config__: {
+          layout: 'raw',
+          tag: 'el-table-column',
+          renderKey: 15957617660153
+        },
+        prop: 'date',
+        label: '日期'
+      }, {
+        __config__: {
+          layout: 'raw',
+          tag: 'el-table-column',
+          renderKey: 15957617660152
+        },
+        prop: 'address',
+        label: '地址'
+      }, {
+        __config__: {
+          layout: 'raw',
+          tag: 'el-table-column',
+          renderKey: 15957617660151
+        },
+        prop: 'name',
+        label: '名称'
+      }, {
+        __config__: {
+          layout: 'raw',
+          tag: 'el-table-column',
+          renderKey: 1595774496335,
+          children: [
+            {
+              __config__: {
+                label: '按钮',
+                tag: 'el-button',
+                tagIcon: 'button',
+                layout: 'raw',
+                renderKey: 1595779809901
+              },
+              __slot__: {
+                default: '主要按钮'
+              },
+              type: 'primary',
+              icon: 'el-icon-search',
+              round: false,
+              size: 'medium'
+            }
+          ]
+        },
+        label: '操作'
+      }]
+    },
+    data: [],
+    directives: [{
+      name: 'loading',
+      value: true
+    }],
+    border: true,
+    type: 'default',
+    justify: 'start',
+    align: 'top'
   }
 ]
 
@@ -532,7 +616,7 @@ export const layoutComponents = [
       tag: 'el-button',
       tagIcon: 'button',
       span: 24,
-      layout: 'colFormItem',
+      layout: 'singleItem',
       document: 'https://element.eleme.cn/#/zh-CN/component/button'
     },
     __slot__: {
@@ -548,7 +632,7 @@ export const layoutComponents = [
   },
   {
     __config__: {
-      layout: 'colFormItem',
+      layout: 'colLayoutItem',
       tagIcon: 'table',
       tag: 'el-table',
       document: 'https://element.eleme.cn/#/zh-CN/component/table',
@@ -559,7 +643,7 @@ export const layoutComponents = [
       showLabel: true,
       changeTag: true,
       labelWidth: null,
-      label: '表格[开发中]',
+      label: '表格（布局）',
       dataType: 'dynamic',
       method: 'get',
       dataPath: 'list',

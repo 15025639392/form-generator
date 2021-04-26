@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
+    "mock": "json-server --watch mock.json",
     "build": "vue-cli-service build",
     "build:report": "vue-cli-service build --report",
     "build:render": "vue-cli-service build --target lib --name form-gen-render --dest ./src/components/render/lib/ ./src/components/render/render.js",
@@ -30,6 +31,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-vue": "^6.2.2",
+    "json-server": "^0.16.3",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
     "svg-sprite-loader": "^4.1.6",

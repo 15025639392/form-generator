@@ -170,24 +170,25 @@ export default {
   data() {
     return {
       logo,
-      idGlobal,
-      formConf,
+      idGlobal, //  为组件添加唯一标识
+      formConf, // 表单属性
       inputComponents,
       selectComponents,
       layoutComponents,
-      labelWidth: 100,
-      drawingList: drawingDefalut,
+      customComponents: [], // 自定义组件（将来设计的组件可保存为自定义组件方便以后使用）
+      labelWidth: 100, // 默认表单 label宽度
+      drawingList: drawingDefalut, // 初始化画布的表单设计
       drawingData: {},
-      activeId: drawingDefalut[0].formId,
+      activeId: drawingDefalut[0].formId, // 激活态的组件id
       drawerVisible: false,
       formData: {},
       dialogVisible: false,
       jsonDrawerVisible: false,
-      generateConf: null,
+      generateConf: null, // 生成器配置（控制最终生成的代码，为弹窗，还是页面）
       showFileName: false,
-      activeData: drawingDefalut[0],
-      saveDrawingListDebounce: debounce(340, saveDrawingList),
-      saveIdGlobalDebounce: debounce(340, saveIdGlobal),
+      activeData: drawingDefalut[0], // 当前激活的组件
+      saveDrawingListDebounce: debounce(340, saveDrawingList), // 缓存配置到locaStorage
+      saveIdGlobalDebounce: debounce(340, saveIdGlobal), // 缓存激活态组件id到locaStorage
       leftComponents: [
         {
           title: '输入型组件',
@@ -200,6 +201,10 @@ export default {
         {
           title: '布局型组件',
           list: layoutComponents
+        },
+        {
+          title: '自定义组件',
+          list: this.customComponents
         }
       ]
     }
@@ -207,6 +212,7 @@ export default {
   computed: {
   },
   watch: {
+    // 改标签名称 同步更改 placeholder
     // eslint-disable-next-line func-names
     'activeData.__config__.label': function (val, oldVal) {
       if (
@@ -224,6 +230,7 @@ export default {
       },
       immediate: true
     },
+    // 画布内容变动 自动缓存到locaStorage
     drawingList: {
       handler(val) {
         this.saveDrawingListDebounce(val)
@@ -251,6 +258,8 @@ export default {
     loadBeautifier(btf => {
       beautifier = btf
     })
+    // 流程copy->generate->execCopy
+    // 初始化剪切板
     const clipboard = new ClipboardJS('#copyNode', {
       text: trigger => {
         const codeStr = this.generateCode()
@@ -322,7 +331,9 @@ export default {
         this.activeId = this.idGlobal
       }
     },
+    // 添加组件
     addComponent(item) {
+      // 将来这里需要改造 以支持在布局组件内 添加其他组件
       const clone = this.cloneComponent(item)
       this.fetchData(clone)
       this.drawingList.push(clone)
@@ -353,6 +364,7 @@ export default {
       }
       return item
     },
+    // 组装 表单数据
     AssembleFormData() {
       this.formData = {
         fields: deepClone(this.drawingList),
@@ -426,6 +438,7 @@ export default {
       this.showFileName = false
       this.operationType = 'copy'
     },
+    // 切换组件类型 并 桥接已经设置的一些基本数据
     tagChange(newTag) {
       newTag = this.cloneComponent(newTag)
       const config = newTag.__config__

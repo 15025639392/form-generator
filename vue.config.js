@@ -40,6 +40,16 @@ module.exports = {
   },
   productionSourceMap: false,
   configureWebpack: {
+    devtool: 'source-map',
+    output: {
+      devtoolModuleFilenameTemplate: info => {
+        const resPath = info.resourcePath
+        if (!/node_modules/.test(info.identifier) && !/webpack/.test(info.identifier)) {
+          return `/${resPath}`
+        }
+        return null
+      }
+    },
     externals: {
       vue: 'Vue',
       'vue-router': 'VueRouter',
